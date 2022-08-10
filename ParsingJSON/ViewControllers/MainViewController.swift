@@ -20,28 +20,6 @@ class MainViewController: UIViewController {
     @IBAction func JSONButtonPressed(_ sender: Any) {
         fetchTimer()
     }
-    
-    
-    //MARK: - Networking
-    private func fetchTimer() {
-        guard let url = URL(string: Link.timerURL.rawValue) else {return}
-        URLSession.shared.dataTask(with: url) { [weak self] data, _, error in
-            guard let data = data else {
-                print(error?.localizedDescription ?? "No error description")
-                return
-            }
-            do {
-                let timer = try JSONDecoder().decode(Timer.self, from: data)
-                print(timer)
-                self?.successAlert()
-            } catch let error {
-                print(error.localizedDescription)
-                self?.faildAlert()
-            }
-        }.resume()
-        
-    }
-    
     //MARK: - Private Methods
     private func successAlert() {
         DispatchQueue.main.async {
@@ -70,6 +48,24 @@ class MainViewController: UIViewController {
             self.present(alert, animated: true)
         }
     }
-    
 }
-
+//MARK: - Networking
+extension MainViewController {
+    private func fetchTimer() {
+        guard let url = URL(string: Link.timerURL.rawValue) else {return}
+        URLSession.shared.dataTask(with: url) { [weak self] data, _, error in
+            guard let data = data else {
+                print(error?.localizedDescription ?? "No error description")
+                return
+            }
+            do {
+                let timer = try JSONDecoder().decode(Timer.self, from: data)
+                print(timer)
+                self?.successAlert()
+            } catch let error {
+                print(error.localizedDescription)
+                self?.faildAlert()
+            }
+        }.resume()
+    }
+}
