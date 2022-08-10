@@ -12,7 +12,7 @@ enum Link: String {
 }
 
 class MainViewController: UIViewController {
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -20,9 +20,9 @@ class MainViewController: UIViewController {
     @IBAction func JSONButtonPressed(_ sender: Any) {
         fetchTimer()
     }
-
-
-//MARK: - Networking
+    
+    
+    //MARK: - Networking
     private func fetchTimer() {
         guard let url = URL(string: Link.timerURL.rawValue) else {return}
         URLSession.shared.dataTask(with: url) { [weak self] data, _, error in
@@ -39,24 +39,24 @@ class MainViewController: UIViewController {
                 self?.faildAlert()
             }
         }.resume()
-
+        
     }
-
-//MARK: - Private Methods
-private func successAlert() {
+    
+    //MARK: - Private Methods
+    private func successAlert() {
         DispatchQueue.main.async {
             let alert = UIAlertController(
                 title: "Success",
                 message: "See results in the Debug area",
                 preferredStyle: .alert
             )
-
+            
             let okAction = UIAlertAction(title: "OK", style: .default)
             alert.addAction(okAction)
             self.present(alert, animated: true)
         }
     }
-
+    
     private func faildAlert() {
         DispatchQueue.main.async {
             let alert = UIAlertController(
@@ -64,12 +64,12 @@ private func successAlert() {
                 message: "See error in the Debug area",
                 preferredStyle: .alert
             )
-
+            
             let okAction = UIAlertAction(title: "OK", style: .default)
             alert.addAction(okAction)
             self.present(alert, animated: true)
         }
     }
-
+    
 }
 
